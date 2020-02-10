@@ -10,15 +10,16 @@ VisionAggregator::VisionAggregator(ros::NodeHandle &nh, ros::NodeHandle &pnh)
     image_transport::SubscriberStatusCallback connect_cb = boost::bind(&VisionAggregator::connectCb, this);
     image_sub_ = it_.subscribe("image", 1, &VisionAggregator::imageCallback, this);
     perception_sub_ = nh.subscribe("/vision/perceptions", 1, &VisionAggregator::perceptionCallback, this);
-
-    cv::namedWindow("view", cv::WINDOW_NORMAL);
-    cv::startWindowThread();
+    image_pub_ = it_.advertise("aggregated", 1);
 }
 
 VisionAggregator::~VisionAggregator() {}
 
 void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
 {
+    if (image_pub_.getNumSubscribers() == 0)
+        return;
+
     cv::Mat image = cv_bridge::toCvShare(img, "bgr8")->image;
     int image_height_ = image.rows;
     int image_width_ = image.cols;
@@ -30,9 +31,12 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
         amrl_vision_common::Perceptions &percept_list = percept_pair.second;
         std::string name = percept_list.perception_name;
         cv::Scalar color = cv::Scalar(255, 255, 255);
-        if (name == "motion") color = cv::Scalar(255, 0, 0);
-        else if (name == "qrcode") color = cv::Scalar(0, 255, 0);
-        else if (name == "hazmat") color = cv::Scalar(0, 0, 255);
+        if (name == "motion")
+            color = cv::Scalar(255, 0, 0);
+        else if (name == "qrcode")
+            color = cv::Scalar(0, 255, 0);
+        else if (name == "hazmat")
+            color = cv::Scalar(0, 0, 255);
         for (amrl_vision_common::Perception &percept : percept_list.perceptions)
         {
             std::vector<cv::Point> polygon;
@@ -59,8 +63,9 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
             cv::putText(image, name, first_point, CV_FONT_HERSHEY_SIMPLEX, 0.75, color, 1);
         }
     }
-    cv::imshow("view", image);
-    cv::waitKey(30);
+
+    sensor_msgs::ImagePtr aggregated = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
+    image_pub_.publish(aggregated);
 }
 
 void VisionAggregator::perceptionCallback(const amrl_vision_common::PerceptionsConstPtr &msg)

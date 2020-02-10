@@ -34,6 +34,7 @@ private:
 
     ros::Subscriber perception_sub_;
     image_transport::Subscriber image_sub_;    
+    image_transport::Publisher image_pub_;
 };
 } // namespace vision_aggregator
 #endif
