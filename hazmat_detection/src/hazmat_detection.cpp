@@ -10,7 +10,6 @@ HazmatDetection::HazmatDetection(ros::NodeHandle &nh, ros::NodeHandle &pnh) : it
 
     enable_srv_ = nh_.advertiseService("/mercury/softwares/hazmat", &HazmatDetection::setEnableSrvCallback, this);
     perception_pub_ = nh_.advertise<amrl_vision_common::Perceptions>("/vision/perceptions", 5);
-    image_sub_ = it_.subscribe("image", 1, &HazmatDetection::imageCallback, this);
     counter_ = 0;
 }
 
