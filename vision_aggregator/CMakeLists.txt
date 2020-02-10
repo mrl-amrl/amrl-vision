@@ -3,7 +3,7 @@ project(amrl_vision_aggregator)
 
 add_compile_options(-std=c++11)
 
-find_package(OpenCV REQUIRED)
+find_package(OpenCV 3.4.9 EXACT REQUIRED PATHS /usr/local/include/opencv2)
 find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   dynamic_reconfigure

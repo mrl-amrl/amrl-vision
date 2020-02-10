@@ -4,8 +4,8 @@
 #include <geometry_msgs/TransformStamped.h>
 #include <sensor_msgs/Image.h>
 #include <tf/tfMessage.h>
-#include <amrl_qrcode_detection/QRCode.h>
-#include <amrl_qrcode_detection/QRCodes.h>
+#include <amrl_vision_common/Perception.h>
+#include <amrl_vision_common/Perceptions.h>
 
 class ObjectTfPub
 {

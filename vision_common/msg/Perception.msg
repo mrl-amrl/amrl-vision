@@ -1,1 +1,2 @@
 geometry_msgs/Polygon polygon
+string name

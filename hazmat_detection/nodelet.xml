@@ -1,0 +1,7 @@
+<library path="lib/libhazmat_detection_nodelet">
+    <class name="amrl_hazmat_detection/hazmat_detection" type="amrl_hazmat_detection::hazmat_detection" base_class_type="nodelet::Nodelet">
+        <description>
+  This is hazmat_detection nodelet.
+        </description>
+    </class>
+</library>

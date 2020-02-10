@@ -1,4 +1,4 @@
-#include "motion-detection/motion_detection.h"
+#include "motion_detection/motion_detection.h"
 
 MotionDetection::MotionDetection(ros::NodeHandle *nodehandle) : nh_(nodehandle),
                                                                 it_(*nodehandle)

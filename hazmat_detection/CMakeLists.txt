@@ -12,17 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   dynamic_reconfigure
   image_transport
-  message_generation
   roscpp
   rospy
   std_msgs
-  # nodelet
+  nodelet
   amrl_vision_common
-)
-
-generate_messages(
-  DEPENDENCIES
-  std_msgs
 )
 
 catkin_package(
@@ -32,11 +26,10 @@ catkin_package(
  cv_bridge 
  dynamic_reconfigure 
  image_transport 
- message_generation 
  roscpp 
  rospy 
  std_msgs
-#  nodelet
+ nodelet
  DEPENDS OpenCV
 )
 file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp include/hazmat_detection/*.hpp include/hazmat_detection/*.h)
@@ -57,12 +50,13 @@ include/hazmat_detection/neural_network.h
 )
 
 add_executable(hazmat_detection_node src/node.cpp)
-add_executable(webcam src/webcam.cpp)
 target_link_libraries(hazmat_detection_node ${catkin_LIBRARIES})
 target_link_libraries(hazmat_detection_node hazmat_detection)
-target_link_libraries(webcam ${catkin_LIBRARIES} hazmat_detection)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
+
+add_library(hazmat_detection_nodelet src/nodelet.cpp)
+target_link_libraries(hazmat_detection_nodelet hazmat_detection)
 
 add_dependencies(hazmat_detection ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 target_link_libraries(hazmat_detection ${catkin_LIBRARIES} ${OpenCV_LIBS} neural_network)

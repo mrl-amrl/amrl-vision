@@ -12,7 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   dynamic_reconfigure
   image_transport
-  message_generation
+  # message_generation
   roscpp
   rospy
   std_msgs
@@ -25,10 +25,10 @@ find_package(catkin REQUIRED COMPONENTS
 #   SetEnabled.srv
 # )
 
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs
+# )
 
 generate_dynamic_reconfigure_options(
   cfg/MotionDetection.cfg
@@ -42,7 +42,7 @@ catkin_package(
  cv_bridge 
  dynamic_reconfigure 
  image_transport 
- message_generation 
+#  message_generation 
  roscpp 
  rospy 
  std_msgs

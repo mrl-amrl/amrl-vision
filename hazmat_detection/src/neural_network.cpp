@@ -2,15 +2,16 @@
 
 NeuralNetwork::NeuralNetwork()
 {
-    std::string classesFile = "/home/aid3n/catkin_ws/src/mrl/amrl-vision/hazmat-detection/net/labels.names";
-    std::ifstream ifs(classesFile.c_str());
+}
+
+NeuralNetwork::NeuralNetwork(std::string cfg_path, std::string weights_path, std::string labels_path)
+{
+    std::ifstream ifs(labels_path.c_str());
     std::string line;
     while (std::getline(ifs, line))
         classes.push_back(line);
 
-    net = cv::dnn::readNetFromDarknet(
-        "/home/aid3n/catkin_ws/src/mrl/amrl-vision/hazmat-detection/net/yolo.cfg",
-        "/home/aid3n/catkin_ws/src/mrl/amrl-vision/hazmat-detection/net/yolo.weights");
+    net = cv::dnn::readNetFromDarknet(cfg_path, weights_path);
     net.setPreferableBackend(cv::dnn::DNN_BACKEND_OPENCV);
     net.setPreferableTarget(cv::dnn::DNN_TARGET_CPU);
 }
@@ -29,7 +30,7 @@ std::vector<cv::String> NeuralNetwork::getOutputsNames(const cv::dnn::Net &net)
     return names;
 }
 
-void NeuralNetwork::detect(cv::Mat image)
+std::vector<detection_rect> NeuralNetwork::detect(cv::Mat image)
 {
     cv::Mat blob;
     cv::dnn::blobFromImage(image, blob, 1 / 255.0, cv::Size(576, 576), cv::Scalar(0, 0, 0), true, false);
@@ -71,9 +72,15 @@ void NeuralNetwork::detect(cv::Mat image)
     std::vector<int> indices;
     cv::dnn::NMSBoxes(boxes, confidences, 0.8, 0.3, indices);
 
+    std::vector<detection_rect> output;
     for (size_t i = 0; i < indices.size(); ++i)
     {
         int idx = indices[i];
         cv::Rect box = boxes[idx];
+        detection_rect r;
+        r.rect = boxes[idx];
+        r.name = classes[classIds[idx]];
+        output.push_back(r);
     }
+    return output;
 }

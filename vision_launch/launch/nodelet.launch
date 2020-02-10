@@ -6,19 +6,22 @@
         <!-- <remap from="image_raw" to="$(arg image_topic)"/> -->
     </node>
 
-    <node name="motion_detection" pkg="nodelet" type="nodelet" args="load amrl_motion_detection/motion_detection standalone_nodelet" respawn="true">
+    <node name="hazmat_detection" pkg="nodelet" type="nodelet" args="load amrl_hazmat_detection/hazmat_detection standalone_nodelet" respawn="true">
         <remap from="image" to="$(arg image_topic)" />
+        <param name="cfg_path" value="$(find amrl_hazmat_detection)/net/nn.cfg"/>
+        <param name="weights_path" value="$(find amrl_hazmat_detection)/net/nn.weights"/>
+        <param name="labels_path" value="$(find amrl_hazmat_detection)/net/labels.names"/>
     </node>
+
+    <node name="motion_detection" pkg="nodelet" type="nodelet" args="load amrl_motion_detection/motion_detection standalone_nodelet" respawn="true">
+        <remap from="/motion_detection/image" to="$(arg image_topic)" />
+    </node>    
 
     <node name="qrcode_detection" pkg="nodelet" type="nodelet" args="load amrl_qrcode_detection/qrcode_detection standalone_nodelet" respawn="true">
         <remap from="image" to="$(arg image_topic)" />
-    </node>
-
-    <!-- <node name="vision_aggregator" pkg="nodelet" type="nodelet" args="load amrl_vision_aggregator/vision_aggregator standalone_nodelet" respawn="true">
-        <remap from="$(arg image_topic)" to="image" />
-    </node> -->
+    </node>  
 
     <node name="vision_aggregator" pkg="amrl_vision_aggregator" type="vision_aggregator_node">
-        <remap from="$(arg image_topic)" to="image" />
+        <remap from="image" to="$(arg image_topic)" />
     </node>
 </launch>

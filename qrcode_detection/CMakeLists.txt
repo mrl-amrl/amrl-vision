@@ -50,7 +50,6 @@ include_directories(include)
 include_directories(${catkin_INCLUDE_DIRS})
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(${ImageMagick_INCLUDE_DIRS})
-include_directories(${catkin_INCLUDE_DIRS})
 
 add_library(visualizer src/visualizer.cpp)
 add_library(qrcode_reader src/qrcode_reader.cpp)

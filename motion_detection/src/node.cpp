@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ros/ros.h>
 #include "opencv2/opencv.hpp"
-#include <motion-detection/motion_detection.h>
+#include <motion_detection/motion_detection.h>
 
 using namespace cv;
 int main(int argc, char **argv)

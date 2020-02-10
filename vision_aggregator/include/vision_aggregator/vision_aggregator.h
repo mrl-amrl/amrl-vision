@@ -23,16 +23,17 @@ private:
     void imageCallback(const sensor_msgs::ImageConstPtr &img);
     void perceptionCallback(const amrl_vision_common::PerceptionsConstPtr &msg);
     void connectCb();
+    void removeUnusedPerceptions();
+
+    ros::Duration storage_duration_;
+    std::map<std::string, amrl_vision_common::Perceptions> detection_map;
 
     ros::NodeHandle nh_;
     ros::NodeHandle pnh_;
     image_transport::ImageTransport it_;
 
-    image_transport::CameraPublisher image_detected_pub_;
-
     ros::Subscriber perception_sub_;
-    image_transport::Subscriber image_sub_;
-    image_transport::CameraSubscriber camera_sub_;
+    image_transport::Subscriber image_sub_;    
 };
 } // namespace vision_aggregator
 #endif

@@ -1,4 +1,4 @@
-#include <motion-detection/motion_detection.h>
+#include <motion_detection/motion_detection.h>
 #include <nodelet/nodelet.h>
 #include <pluginlib/class_list_macros.h>
 

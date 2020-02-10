@@ -6,7 +6,9 @@
 #include <cv_bridge/cv_bridge.h>
 #include <hazmat_detection/neural_network.h>
 #include <image_transport/image_transport.h>
+#include <geometry_msgs/Point32.h>
 #include <amrl_vision_common/SetEnabled.h>
+#include <amrl_vision_common/Perception.h>
 #include <amrl_vision_common/Perceptions.h>
 
 class HazmatDetection
@@ -18,6 +20,7 @@ public:
 private:
     void imageCallback(const sensor_msgs::ImageConstPtr &img);
     bool setEnableSrvCallback(amrl_vision_common::SetEnabled::Request &req, amrl_vision_common::SetEnabled::Response &res);
+    int counter_;
 
     NeuralNetwork nn;
     bool is_enabled;

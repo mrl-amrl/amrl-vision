@@ -22,5 +22,8 @@
 
     <node name="hazmat_detection" pkg="amrl_hazmat_detection" type="hazmat_detection_node">
         <remap from="image" to="/usb_cam/image_raw" />
+        <param name="cfg_path" value="$(find amrl_hazmat_detection)/net/nn.cfg"/>
+        <param name="weights_path" value="$(find amrl_hazmat_detection)/net/nn.weights"/>
+        <param name="labels_path" value="$(find amrl_hazmat_detection)/net/labels.names"/>
     </node>
 </launch>
