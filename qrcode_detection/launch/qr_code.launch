@@ -1,0 +1,5 @@
+<launch>
+    <node name="qrcode_detection" type="qrcode_reader_node" pkg="amrl_qrcode_detection" output="screen" >
+        <remap from="image" to="$(arg image_topic)"/>
+    </node>
+</launch>

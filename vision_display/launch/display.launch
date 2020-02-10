@@ -1,0 +1,5 @@
+<launch>
+    <node name="amrl_vision_display" type="display-node.py" pkg="amrl_vision_display" output="screen" >
+        <param name="image_topic" value="/camera/rgb/image_raw"/>
+    </node>
+</launch>

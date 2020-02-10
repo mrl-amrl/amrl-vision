@@ -1,0 +1,20 @@
+stages:
+  - test
+
+test:
+  stage: test
+  image: ahmdrz/docker-amrl-vision:latest
+  script:
+    - source /opt/ros/melodic/setup.bash
+    - mkdir -p $HOME/catkin_ws/src
+    - cd $HOME/catkin_ws/src; catkin_init_workspace    
+    - cd $HOME/catkin_ws; catkin_make
+    - source $HOME/catkin_ws/devel/setup.bash    
+    - ln -svf $CI_PROJECT_DIR $HOME/catkin_ws/src    
+    
+    - cd $CI_PROJECT_DIR
+    - chmod +x install.sh     
+    - ./install.sh
+
+    - cd $HOME/catkin_ws
+    - catkin_make

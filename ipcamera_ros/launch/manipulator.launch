@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node pkg="amrl_ipcamera" type="ipcamera_node" name="amrl_ipcamera" output="screen">
+    <param name="video_url" type="string" value="http://192.168.10.23:80/mjpeg?video.mjpg" />
+    <param name="frame_id" type="string" value="manipulator_cam_link" />
+  </node>
+</launch>

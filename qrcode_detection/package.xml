@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package>
+  <name>amrl_qrcode_detection</name>
+  <version>0.0.1</version>
+  <description>The amrl_qrcode_detection package</description>
+
+  <maintainer email="alireza.hosseini@qiau.ac.ir">Alireza Hosseini</maintainer>
+  <author>Ahmadreza Zibaei</author>
+
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>opencv2</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>dynamic_reconfigure</build_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>opencv2</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>dynamic_reconfigure</run_depend>
+
+  <build_depend>nodelet</build_depend>
+  <run_depend>nodelet</run_depend>
+  
+  <export>
+    <nodelet plugin="${prefix}/nodelet.xml" />
+  </export>
+</package>

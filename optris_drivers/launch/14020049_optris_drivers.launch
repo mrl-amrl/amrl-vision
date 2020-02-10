@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+  <group ns="optris">
+    <node name="optris_imager_node" pkg="optris_drivers" type="optris_imager_node" output="screen">
+      <param name="xmlConfig"      type="string" value="/usr/share/libirimager/cali/Cali-14020049.xml"/>
+    </node>
+    <node name="optris_colorconvert_node" pkg="optris_drivers" type="optris_colorconvert_node">
+      <param name="palette"        type="int"    value="6"/>     <!--6 see ImageBuilder.h for valid values -->
+      <param name="paletteScaling" type="int"    value="1"/>     <!-- scaling method for color conversion, see ImageBuilder.h -->
+      <param name="temperatureMin" type="double" value="22"/>    <!--26 set minimum temperature for fixed scaling -->
+      <param name="temperatureMax" type="double" value="50"/>    <!--50 set maximum temperature for fixed scaling -->
+      <param name="looprate"       type="double" value="30"/>    <!-- set frame rate to publish images -->
+    </node>
+    <!-- <node name="image_proc" pkg="image_proc" type="image_proc"/> -->
+  </group>
+</launch>

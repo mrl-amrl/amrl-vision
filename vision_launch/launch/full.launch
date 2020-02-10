@@ -1,0 +1,26 @@
+<launch>
+    <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen">
+        <param name="video_device" value="/dev/video0" />
+        <param name="image_width" value="640" />
+        <param name="image_height" value="480" />
+        <param name="pixel_format" value="yuyv" />
+        <param name="camera_frame_id" value="usb_cam" />
+        <param name="io_method" value="mmap"/>
+    </node>
+
+    <node name="motion_detection" pkg="amrl_motion_detection" type="motion_detection_node">
+        <remap from="/motion_detection/image" to="/usb_cam/image_raw" />
+    </node>
+
+    <node name="qrcode_detection" pkg="amrl_qrcode_detection" type="qrcode_reader_node">
+        <remap from="image" to="/usb_cam/image_raw" />
+    </node>
+
+    <node name="vision_aggregator" pkg="amrl_vision_aggregator" type="vision_aggregator_node">
+        <remap from="image" to="/usb_cam/image_raw" />
+    </node>
+
+    <node name="hazmat_detection" pkg="amrl_hazmat_detection" type="hazmat_detection_node">
+        <remap from="image" to="/usb_cam/image_raw" />
+    </node>
+</launch>

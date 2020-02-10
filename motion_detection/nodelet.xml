@@ -1,0 +1,7 @@
+<library path="lib/libmotion_detection_nodelet">
+    <class name="amrl_motion_detection/motion_detection" type="amrl_motion_detection::motion_detection" base_class_type="nodelet::Nodelet">
+        <description>
+  This is motion_detection nodelet.
+        </description>
+    </class>
+</library>

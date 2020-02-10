@@ -1,0 +1,24 @@
+<launch>
+    <arg name="image_topic" default="/image_raw" />
+    <node pkg="nodelet" type="nodelet" name="standalone_nodelet" args="manager" output="screen"/>
+
+    <node pkg="nodelet" type="nodelet" name="uvc_camera" args="load uvc_camera/CameraNodelet standalone_nodelet">
+        <!-- <remap from="image_raw" to="$(arg image_topic)"/> -->
+    </node>
+
+    <node name="motion_detection" pkg="nodelet" type="nodelet" args="load amrl_motion_detection/motion_detection standalone_nodelet" respawn="true">
+        <remap from="image" to="$(arg image_topic)" />
+    </node>
+
+    <node name="qrcode_detection" pkg="nodelet" type="nodelet" args="load amrl_qrcode_detection/qrcode_detection standalone_nodelet" respawn="true">
+        <remap from="image" to="$(arg image_topic)" />
+    </node>
+
+    <!-- <node name="vision_aggregator" pkg="nodelet" type="nodelet" args="load amrl_vision_aggregator/vision_aggregator standalone_nodelet" respawn="true">
+        <remap from="$(arg image_topic)" to="image" />
+    </node> -->
+
+    <node name="vision_aggregator" pkg="amrl_vision_aggregator" type="vision_aggregator_node">
+        <remap from="$(arg image_topic)" to="image" />
+    </node>
+</launch>
