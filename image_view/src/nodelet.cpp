@@ -5,14 +5,14 @@
 namespace amrl_image_view
 {
 
-class image_view : public nodelet::Nodelet
+class image_view_nodelet : public nodelet::Nodelet
 {
 private:
   ImageView *impl;
 
 public:
-  image_view() : impl(0) {}
-  virtual ~image_view() { delete impl; }
+  image_view_nodelet() : impl(0) {}
+  virtual ~image_view_nodelet() { delete impl; }
 
 private:
   void onInit()
@@ -23,4 +23,4 @@ private:
 
 } // namespace amrl_vision_aggregator
 
-PLUGINLIB_EXPORT_CLASS(amrl_image_view::image_view, nodelet::Nodelet)
+PLUGINLIB_EXPORT_CLASS(amrl_image_view::image_view_nodelet, nodelet::Nodelet)
