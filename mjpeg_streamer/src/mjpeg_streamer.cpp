@@ -20,5 +20,13 @@ MJPEGStreamer::~MJPEGStreamer()
 void MJPEGStreamer::imageCallback(const sensor_msgs::ImageConstPtr &img)
 {
     cv::Mat image = cv_bridge::toCvShare(img, "bgr8")->image;
+    int image_height_ = image.rows;
+    int image_width_ = image.cols;
+    if (image_width_ > 480)
+    {
+        cv::resize(image, image, cv::Size(480, 320));
+        image_width_ = 480;
+        image_height_ = 320;
+    }
     writer.write(image);
 }
