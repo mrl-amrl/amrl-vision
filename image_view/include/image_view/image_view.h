@@ -22,5 +22,6 @@ private:
     image_transport::ImageTransport it_;
     image_transport::Subscriber image_sub_; 
     bool created_;
+    std::string window_name;
 };
 #endif
