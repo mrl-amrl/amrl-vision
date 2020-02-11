@@ -19,10 +19,12 @@ class VisionAggregator
 public:
     VisionAggregator(ros::NodeHandle &nh, ros::NodeHandle &pnh);
     ~VisionAggregator();
+    std::string getTime();
 private:
     void imageCallback(const sensor_msgs::ImageConstPtr &img);
     void perceptionCallback(const amrl_vision_common::PerceptionsConstPtr &msg);
     void removeUnusedPerceptions();
+    std::string last_time;
 
     ros::Duration storage_duration_;
     std::map<std::string, amrl_vision_common::Perceptions> detection_map;

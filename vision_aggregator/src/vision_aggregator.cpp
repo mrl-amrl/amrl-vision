@@ -7,6 +7,7 @@ VisionAggregator::VisionAggregator(ros::NodeHandle &nh, ros::NodeHandle &pnh)
     image_sub_ = it_.subscribe("image", 1, &VisionAggregator::imageCallback, this);
     perception_sub_ = nh.subscribe("/vision/perceptions", 1, &VisionAggregator::perceptionCallback, this);
     image_pub_ = it_.advertise("aggregated", 1);
+    last_time = getTime();
 }
 
 VisionAggregator::~VisionAggregator() {}
@@ -27,6 +28,8 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
     }
 
     removeUnusedPerceptions();
+    if (detection_map.size() != 0)
+        last_time = getTime();
 
     for (auto &percept_pair : detection_map)
     {
@@ -71,8 +74,23 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
         }
     }
 
+    cv::putText(image, "last time: " + last_time, cv::Point(5, 17), CV_FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(255, 255, 255), 1);
     sensor_msgs::ImagePtr aggregated = cv_bridge::CvImage(std_msgs::Header(), "bgr8", image).toImageMsg();
     image_pub_.publish(aggregated);
+}
+
+std::string VisionAggregator::getTime()
+{
+    time_t rawtime;
+    struct tm *timeinfo;
+    char buffer[80];
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strftime(buffer, sizeof(buffer), "%H:%M:%S", timeinfo);
+    std::string str(buffer);
+    return str;
 }
 
 void VisionAggregator::perceptionCallback(const amrl_vision_common::PerceptionsConstPtr &msg)
