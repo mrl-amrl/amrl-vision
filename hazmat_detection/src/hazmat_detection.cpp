@@ -6,6 +6,7 @@ HazmatDetection::HazmatDetection(ros::NodeHandle &nh, ros::NodeHandle &pnh) : it
     pnh_.getParam("cfg_path", cfg_path);
     pnh_.getParam("weights_path", weights_path);
     pnh_.getParam("labels_path", labels_path);
+    pnh_.getParam("skip_frames", skip_frames);
     nn = NeuralNetwork(cfg_path, weights_path, labels_path);
 
     enable_srv_ = nh_.advertiseService("/mercury/softwares/hazmat", &HazmatDetection::setEnableSrvCallback, this);
@@ -42,11 +43,10 @@ void HazmatDetection::imageCallback(const sensor_msgs::ImageConstPtr &msg)
 {
     if (perception_pub_.getNumSubscribers() == 0)
         return;
-    if (counter_++ > 3)
-    {
-        counter_ = 0;
+    if (counter_++ < skip_frames)
         return;
-    }
+    counter_ = 0;
+
     cv_bridge::CvImagePtr cam_image;
     cam_image = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
     int image_height_ = cam_image->image.rows;

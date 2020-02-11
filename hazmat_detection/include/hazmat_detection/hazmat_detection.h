@@ -21,6 +21,7 @@ private:
     void imageCallback(const sensor_msgs::ImageConstPtr &img);
     bool setEnableSrvCallback(amrl_vision_common::SetEnabled::Request &req, amrl_vision_common::SetEnabled::Response &res);
     int counter_;
+    int skip_frames;
 
     NeuralNetwork nn;
     bool is_enabled;
