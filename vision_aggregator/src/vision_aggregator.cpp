@@ -22,6 +22,12 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
     cv::Mat image = cv_bridge::toCvShare(img, "bgr8")->image;
     int image_height_ = image.rows;
     int image_width_ = image.cols;
+    if (image_width_ > 480)
+    {
+        cv::resize(image, image, cv::Size(480, 320));
+        image_width_ = 480;
+        image_height_ = 320;
+    }
 
     removeUnusedPerceptions();
 
@@ -64,7 +70,7 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
             first_point.y -= 5;
             if (percept.name != "")
                 name = percept.name;
-            cv::putText(image, name, first_point, CV_FONT_HERSHEY_SIMPLEX, 0.75, color, 1);
+            cv::putText(image, name, first_point, CV_FONT_HERSHEY_SIMPLEX, 0.5, color, 1);
         }
     }
 
