@@ -47,17 +47,11 @@ bool MotionDetection::setEnableSrvCallback(amrl_vision_common::SetEnabled::Reque
 
 void MotionDetection::imageCallback(const sensor_msgs::ImageConstPtr &msg)
 {
-    cv_bridge::CvImageConstPtr cv_img_ptr;
-
-    try
-    {
-        cv_img_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8);
-    }
-    catch (cv_bridge::Exception &e)
-    {
-        ROS_ERROR_STREAM("[motion-detection] Could not convert ROS image to CV: " << e.what());
+    if (perception_pub_.getNumSubscribers() == 0)
         return;
-    }
+
+    cv_bridge::CvImageConstPtr cv_img_ptr;
+    cv_img_ptr = cv_bridge::toCvShare(msg, sensor_msgs::image_encodings::BGR8);
 
     cv::Mat frame;
 
@@ -85,8 +79,10 @@ void MotionDetection::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     cv::Rect bounding_rect;
     std::vector<std::vector<cv::Point>> contours;
     cv::findContours(fgimg, contours, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE);
-    int area;
+    if (contours.size() == 0)
+        return;
 
+    int area;
     perceptions_.perceptions.clear();
     perceptions_.header.stamp = ros::Time::now();
     perception_.polygon.points.clear();
