@@ -28,4 +28,9 @@
     <node name="image_view" pkg="nodelet" type="nodelet" args="load amrl_image_view/image_view_nodelet standalone_nodelet" respawn="true">
         <remap from="image" to="/aggregated" />
     </node>
+
+    <node name="mjpeg_streamer" pkg="nodelet" type="nodelet" args="load amrl_mjpeg_streamer/mjpeg_streamer_nodelet standalone_nodelet" respawn="true">
+        <remap from="image" to="/aggregated" />
+        <param name="port" value="8090" />
+    </node>
 </launch>

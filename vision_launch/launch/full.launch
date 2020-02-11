@@ -31,4 +31,9 @@
     <node name="image_view" pkg="amrl_image_view" type="image_view_node">
         <remap from="image" to="/aggregated" />
     </node>
+
+    <node name="mjpeg_streamer" pkg="amrl_mjpeg_streamer" type="mjpeg_streamer_node">
+        <remap from="image" to="/aggregated" />
+        <param name="port" value="8090" />
+    </node>
 </launch>
