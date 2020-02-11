@@ -22,7 +22,6 @@ public:
 private:
     void imageCallback(const sensor_msgs::ImageConstPtr &img);
     void perceptionCallback(const amrl_vision_common::PerceptionsConstPtr &msg);
-    void connectCb();
     void removeUnusedPerceptions();
 
     ros::Duration storage_duration_;

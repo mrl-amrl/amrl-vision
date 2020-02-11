@@ -1,0 +1,7 @@
+<library path="lib/libvision_aggregator_nodelet">
+    <class name="amrl_vision_aggregator/vision_aggregator_nodelet" type="amrl_vision_aggregator::vision_aggregator_nodelet" base_class_type="nodelet::Nodelet">
+        <description>
+  This is amrl_vision_aggregator nodelet.
+        </description>
+    </class>
+</library>

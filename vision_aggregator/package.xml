@@ -34,6 +34,10 @@
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>amrl_vision_common</exec_depend>
 
+  <build_depend>nodelet</build_depend>
+  <exec_depend>nodelet</exec_depend>
+  
   <export>
+    <nodelet plugin="${prefix}/nodelet.xml" />
   </export>
 </package>

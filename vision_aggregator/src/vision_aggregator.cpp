@@ -7,7 +7,6 @@ namespace vision_aggregator
 VisionAggregator::VisionAggregator(ros::NodeHandle &nh, ros::NodeHandle &pnh)
     : nh_(nh), pnh_(pnh), it_(nh), storage_duration_(ros::Duration(1))
 {
-    image_transport::SubscriberStatusCallback connect_cb = boost::bind(&VisionAggregator::connectCb, this);
     image_sub_ = it_.subscribe("image", 1, &VisionAggregator::imageCallback, this);
     perception_sub_ = nh.subscribe("/vision/perceptions", 1, &VisionAggregator::perceptionCallback, this);
     image_pub_ = it_.advertise("aggregated", 1);
@@ -42,16 +41,21 @@ void VisionAggregator::imageCallback(const sensor_msgs::ImageConstPtr &img)
             std::vector<cv::Point> polygon;
 
             cv::Point first_point;
-            first_point.x = image_width_;
-            first_point.y = image_height_;
+            float min_distance = image_width_ + image_height_;
             for (geometry_msgs::Point32 &ros_point : percept.polygon.points)
             {
                 cv::Point cv_point;
                 cv_point.x = ros_point.x * image_width_;
                 cv_point.y = ros_point.y * image_height_;
                 polygon.push_back(cv_point);
-                if (cv_point.x < first_point.x && cv_point.y < first_point.y)
-                    first_point = cv_point;
+
+                float distance = sqrt(pow(cv_point.x, 2) + pow(cv_point.y, 2));
+                if (distance < min_distance)
+                {
+                    first_point.x = cv_point.x;
+                    first_point.y = cv_point.y;
+                    min_distance = distance;
+                }
             }
             const cv::Point *pts = (const cv::Point *)cv::Mat(polygon).data;
             int npts = cv::Mat(polygon).rows;
@@ -92,11 +96,6 @@ void VisionAggregator::removeUnusedPerceptions()
             detection_map.erase(it);
         }
     }
-}
-
-void VisionAggregator::connectCb()
-{
-    ROS_WARN("connect callback");
 }
 
 } // namespace vision_aggregator

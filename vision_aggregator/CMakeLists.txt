@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  nodelet
   amrl_vision_common
 )
 
@@ -23,6 +24,7 @@ catkin_package(
  roscpp 
  rospy 
  std_msgs
+ nodelet
  DEPENDS OpenCV
 )
 file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp include/vision_aggregator/*.hpp include/vision_aggregator/*.h)
@@ -40,6 +42,9 @@ target_link_libraries(vision_aggregator ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(vision_aggregator_node vision_aggregator)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
+
+add_library(vision_aggregator_nodelet src/nodelet.cpp)
+target_link_libraries(vision_aggregator_nodelet vision_aggregator)
 
 # add_dependencies(vision_aggregator ${catkin_EXPORTED_TARGETS} ${${PROJECT_NAME}_EXPORTED_TARGETS})
 # target_link_libraries(vision_aggregator ${catkin_LIBRARIES} ${OpenCV_LIBS})
