@@ -1,7 +1,4 @@
 #include <vision_aggregator/vision_aggregator.h>
-
-#include <boost/thread/lock_guard.hpp>
-
 namespace vision_aggregator
 {
 VisionAggregator::VisionAggregator(ros::NodeHandle &nh, ros::NodeHandle &pnh)
