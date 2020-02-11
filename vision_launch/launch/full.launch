@@ -28,8 +28,7 @@
         <param name="skip_frames" value="6"/>
     </node>
 
-    <node name="web_video_server" pkg="web_video_server" type="web_video_server">
-        <param name="ros_threads" value="6" />
-        <param name="server_threads" value="6" />
+    <node name="image_view" pkg="amrl_image_view" type="image_view_node">
+        <remap from="image" to="/aggregated" />
     </node>
 </launch>
