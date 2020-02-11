@@ -1,7 +1,7 @@
-<library path="lib/libimage_view_nodelet">
-    <class name="amrl_image_view/image_view_nodelet" type="amrl_image_view::image_view_nodelet" base_class_type="nodelet::Nodelet">
+<library path="lib/libmjpeg_streamer_nodelet">
+    <class name="amrl_mjpeg_streamer/mjpeg_streamer_nodelet" type="amrl_mjpeg_streamer::mjpeg_streamer_nodelet" base_class_type="nodelet::Nodelet">
         <description>
-  This is amrl_image_view nodelet.
+  This is amrl_mjpeg_streamer nodelet.
         </description>
     </class>
 </library>
