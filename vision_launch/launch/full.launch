@@ -36,4 +36,9 @@
         <remap from="image" to="/aggregated" />
         <param name="port" value="8090" />
     </node>
+
+    <node name="rtsp_streamer" pkg="amrl_rtsp_streamer" type="rtsp_streamer_node">
+        <param name="rtsp_link" value="rtsp://root:@mrl2019@192.168.10.91/live.sdp" />
+        <param name="port" value="7080" />
+    </node>
 </launch>

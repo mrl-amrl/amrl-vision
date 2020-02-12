@@ -29,6 +29,6 @@ void RTSPStreamer::spin()
         if (frame.empty())
             break;
 
-        writer.start();
+        writer.write(frame);
     }
 }
