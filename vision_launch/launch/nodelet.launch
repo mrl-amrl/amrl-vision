@@ -1,5 +1,7 @@
 <launch>
     <arg name="image_topic" default="/image_raw" />
+    <arg name="display" default="false" />
+
     <node pkg="nodelet" type="nodelet" name="standalone_nodelet" args="manager" output="screen"/>
 
     <node pkg="nodelet" type="nodelet" name="uvc_camera" args="load uvc_camera/CameraNodelet standalone_nodelet">
@@ -25,7 +27,7 @@
         <remap from="image" to="$(arg image_topic)" />
     </node>
 
-    <node name="image_view" pkg="nodelet" type="nodelet" args="load amrl_image_view/image_view_nodelet standalone_nodelet" respawn="true">
+    <node if="$(arg display)" name="image_view" pkg="nodelet" type="nodelet" args="load amrl_image_view/image_view_nodelet standalone_nodelet" respawn="true">
         <remap from="image" to="/aggregated" />
     </node>
 
