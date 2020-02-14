@@ -46,7 +46,7 @@ void Node::callback(amrl_qrcode_detection::QRCodeConfig &config, uint32_t level)
     reader_.setBarcodeSize(config.barcode_size).setFOV(config.fov);
 }
 
-bool Node::setEnableSrvCallback(amrl_qrcode_detection::SetEnabled::Request &req, amrl_qrcode_detection::SetEnabled::Response &res)
+bool Node::setEnableSrvCallback(amrl_vision_common::SetEnabled::Request &req, amrl_vision_common::SetEnabled::Response &res)
 {
     enabled_ = req.enabled;
     if (req.enabled)

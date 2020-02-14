@@ -56,7 +56,7 @@ include
 )
 add_library(
   motion_detection
-include/motion-detection/motion_detection.h
+include/motion_detection/motion_detection.h
  src/motion_detection.cpp)
 
 add_executable(motion_detection_node src/node.cpp)
