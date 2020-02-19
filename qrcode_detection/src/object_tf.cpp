@@ -4,6 +4,7 @@ ObjectTfPub::ObjectTfPub(ros::NodeHandle nh, ros::NodeHandle private_nh) : pub_t
                                                                            pub_tf_private_(private_nh.advertise<tf::tfMessage>("tf_objects", 5)),
                                                                            pub_items_private_(nh.advertise<amrl_vision_common::Perceptions>("/vision/perceptions", 5))
 {
+    private_nh.getParam("camera_frame_id", frame_id);
 }
 
 void ObjectTfPub::publish(std::vector<barcode::Barcode> &barcodes, const sensor_msgs::ImageConstPtr &msg) const
@@ -15,6 +16,7 @@ void ObjectTfPub::publish(std::vector<barcode::Barcode> &barcodes, const sensor_
     amrl_vision_common::Perceptions perceptions;
     perceptions.perception_name = "qrcode";
     perceptions.header.stamp = ros::Time::now();
+    perceptions.header.frame_id = frame_id;
     for (uint i = 0; i < barcodes.size(); i++)
     {
         amrl_vision_common::Perception perception;

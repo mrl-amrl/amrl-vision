@@ -17,4 +17,6 @@ private:
 public:
     ObjectTfPub(ros::NodeHandle nh, ros::NodeHandle private_nh);
     void publish(std::vector<barcode::Barcode> &barcodes, const sensor_msgs::ImageConstPtr &msg) const;
+
+    std::string frame_id;
 };
