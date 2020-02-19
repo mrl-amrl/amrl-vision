@@ -22,6 +22,7 @@ private:
     bool setEnableSrvCallback(amrl_vision_common::SetEnabled::Request &req, amrl_vision_common::SetEnabled::Response &res);
     int counter_;
     int skip_frames;
+    std::string frame_id;
 
     NeuralNetwork nn;
     bool is_enabled;

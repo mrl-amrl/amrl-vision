@@ -7,6 +7,7 @@ HazmatDetection::HazmatDetection(ros::NodeHandle &nh, ros::NodeHandle &pnh) : it
     pnh_.getParam("weights_path", weights_path);
     pnh_.getParam("labels_path", labels_path);
     pnh_.getParam("skip_frames", skip_frames);
+    pnh_.getParam("camera_frame_id", frame_id);
     nn = NeuralNetwork(cfg_path, weights_path, labels_path);
 
     enable_srv_ = nh_.advertiseService("/mercury/softwares/hazmat", &HazmatDetection::setEnableSrvCallback, this);
@@ -58,6 +59,7 @@ void HazmatDetection::imageCallback(const sensor_msgs::ImageConstPtr &msg)
 
     amrl_vision_common::Perceptions perceptions;
     perceptions.header.stamp = ros::Time::now();
+    perceptions.header.frame_id = frame_id;
     perceptions.perception_name = "hazmat";
     amrl_vision_common::Perception perception;
 

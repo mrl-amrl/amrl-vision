@@ -26,6 +26,7 @@
         <param name="weights_path" value="$(find amrl_hazmat_detection)/net/nn.weights"/>
         <param name="labels_path" value="$(find amrl_hazmat_detection)/net/labels.names"/>
         <param name="skip_frames" value="6"/>
+        <param name="camera_frame_id" value="usb_cam"/>
     </node>
 
     <node name="image_view" pkg="amrl_image_view" type="image_view_node">
