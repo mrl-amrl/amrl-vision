@@ -9,6 +9,7 @@ MotionDetection::MotionDetection(ros::NodeHandle *nodehandle) : nh_(nodehandle),
     f_ = boost::bind(&MotionDetection::callbackDynamicCfg, this, _1, _2);
     server_.setCallback(f_);
     perceptions_.perception_name = "motion";
+    perceptions_.header.frame_id = "motion";
     perception_pub_ = nh_->advertise<amrl_vision_common::Perceptions>("/vision/perceptions", 5);
 }
 
@@ -88,32 +89,27 @@ void MotionDetection::imageCallback(const sensor_msgs::ImageConstPtr &msg)
     perception_.polygon.points.clear();
     for (int i = 0; i < contours.size(); i++)
     {
-        bounding_rect = cv::boundingRect(contours[i]);
+        std::vector<cv::Point> hull;
         area = cv::contourArea(contours[i]);
         if (area > min_area_)
         {
-            geometry_msgs::Point32 p1, p2, p3, p4;
-            float x = (float)bounding_rect.x / image_width_;
-            float y = (float)bounding_rect.y / image_height_;
-            float h = (float)bounding_rect.height / image_height_;
-            float w = (float)bounding_rect.width / image_width_;
-            p1.x = x;
-            p1.y = y;
-            p2.x = x + w;
-            p2.y = y;
-            p3.x = x + w;
-            p3.y = y + h;
-            p4.x = x;
-            p4.y = y + h;
             std::vector<geometry_msgs::Point32> points;
-            points.push_back(p1);
-            points.push_back(p2);
-            points.push_back(p3);
-            points.push_back(p4);
+            convexHull( contours[i], hull,true);
+            for (int i = 0; i < hull.size(); i ++)
+            {
+               cv::Point p;
+               p = hull.at(i);
+               float x = (float)p.x / image_width_ ;
+               float y = (float)p.y / image_height_;
+               geometry_msgs::Point32 point;
+               point.x = x;
+               point.y = y;
+               points.push_back(point);
+            }
             perception_.polygon.points = points;
             perceptions_.perceptions.push_back(perception_);
         }
-    }
 
     perception_pub_.publish(perceptions_);
+    }
 }
