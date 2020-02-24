@@ -1,2 +1,3 @@
 geometry_msgs/Polygon polygon
 string name
+string child_frame_id

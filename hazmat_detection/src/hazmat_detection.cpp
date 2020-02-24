@@ -76,8 +76,7 @@ void HazmatDetection::pointsCallback(const sensor_msgs::PointCloud2Ptr &msg)
     pcl::fromROSMsg(*msg, depth);
 
     amrl_vision_common::Perceptions perceptions;
-    perceptions.header.stamp = ros::Time::now();
-    perceptions.header.frame_id = frame_id;
+    perceptions.header = msg->header;
     perceptions.perception_name = "hazmat";
     amrl_vision_common::Perception perception;
 
@@ -124,11 +123,12 @@ void HazmatDetection::pointsCallback(const sensor_msgs::PointCloud2Ptr &msg)
         {
             tr.transform.translation.x = 0;
             tr.transform.translation.y = 0;
-            tr.transform.translation.z = 0.2;
+            tr.transform.translation.z = 0.3;
         }
         tf_msg.transforms.push_back(tr);
 
         perception.name = item.name;
+        perception.child_frame_id = tr.child_frame_id;
         perception.polygon.points = points;
         perceptions.perceptions.push_back(perception);
     }
