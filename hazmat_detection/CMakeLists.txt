@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  pcl_conversions
   nodelet
   amrl_vision_common
 )
@@ -30,6 +31,7 @@ catkin_package(
  rospy 
  std_msgs
  nodelet
+ pcl_conversions
  DEPENDS OpenCV
 )
 file(GLOB_RECURSE SOURCES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} FOLLOW_SYMLINKS src/*.cpp include/hazmat_detection/*.hpp include/hazmat_detection/*.h)

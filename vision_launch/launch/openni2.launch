@@ -1,0 +1,14 @@
+<launch>
+    <arg name="pcl_topic" default="/camera/depth_registered/points" />
+    <include file="$(find openni2_launch)/launch/openni2.launch" />
+
+    <node name="hazmat_detection" pkg="amrl_hazmat_detection" type="hazmat_detection_node">
+        <param name="cfg_path" value="$(find amrl_hazmat_detection)/net/nn.cfg" />
+        <param name="weights_path" value="$(find amrl_hazmat_detection)/net/nn.weights" />
+        <param name="labels_path" value="$(find amrl_hazmat_detection)/net/labels.names" />
+        <param name="pcl_enabled" value="true" />
+        <param name="skip_frames" value="10" />
+
+        <remap from="/points" to="/camera/depth_registered/points" />
+    </node>
+</launch>
